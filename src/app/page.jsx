@@ -6,7 +6,9 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div>
-      <Link href={{ pathname: "/qris-generator" }}>try it</Link>
+      <Link href={{ pathname: "/qris-generator" }}>
+        <Button>Try it</Button>
+      </Link>
     </div>
   );
 }
