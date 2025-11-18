@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -17,10 +18,20 @@ import { Html5Qrcode } from "html5-qrcode";
 import { useEffect, useRef, useState } from "react";
 import qrcode from "qrcode";
 import Link from "next/link";
+import { useLocalStorage } from "@/hooks/use-local-storage.js";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { InputGroupButton } from "@/components/ui/input-group";
+import { ChevronDownIcon } from "lucide-react";
 
 export default function Home() {
   const [qrResult, setQrResult] = useState(null);
   const [nominal, setNominal] = useState(null);
+  const [saveCode, setSaveCode] = useState(false);
   const [taxEnable, setTaxEnable] = useState("none");
   const [tax, setTax] = useState(0);
   const [stringQr, setStringQr] = useState({
@@ -29,7 +40,7 @@ export default function Home() {
     download: "",
     id: "",
   });
-  const canvasRef = useRef(null);
+  const { get, set } = useLocalStorage();
 
   useEffect(() => {
     setTax(0);
@@ -46,12 +57,21 @@ export default function Home() {
     });
   };
 
+  const handleSave = () => {
+    setSaveCode(!saveCode);
+  };
+
   const generateQr = async () => {
     if (!qrResult || !nominal) {
       alert("error");
     }
 
-    console.log({ nominal, tax, taxEnable });
+    let calculatedTax = 0;
+    if (taxEnable == "persen") {
+      calculatedTax = tax * nominal;
+    } else {
+      calculatedTax = tax;
+    }
 
     const response = await fetch("/api/qris-generate", {
       method: "POST",
@@ -61,7 +81,7 @@ export default function Home() {
       body: JSON.stringify({
         stringQr: qrResult,
         nominal: nominal,
-        tax: tax,
+        tax: calculatedTax.toString(),
       }),
     });
     const responseBody = await response.json();
@@ -74,6 +94,10 @@ export default function Home() {
         success: true,
         id: `result_${responseBody.id}`,
       }));
+
+      // if (saveCode) {
+      //   set("stringQr", qrResult);
+      // }
 
       //   const canvas = canvasRef.current;
       //   const img = new Image();
@@ -114,7 +138,28 @@ export default function Home() {
 
         <div className="grid w-full max-w-sm items-center gap-3">
           <Label htmlFor="inputFileQr">Masukkan Kode Qr</Label>
-          <Input id="inputFileQr" type="file" onChange={handleQrFile} />
+          <div className="flex gap-2">
+            <Input id="inputFileQr" type="file" onChange={handleQrFile} />
+            {/* {get("stringQr") && (
+              <div>
+                <Select onValueChange={(value) => setTaxEnable(value)}>
+                  <SelectTrigger className="w-[90px]">
+                    <SelectValue placeholder="Saved" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="none">None</SelectItem>
+                      <SelectItem value={get("stringQr")}>Code 1</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            )} */}
+          </div>
+          <div className="flex items-center gap-3">
+            <Checkbox id="terms" onClick={handleSave} />
+            <Label htmlFor="terms">Simpan untuk penggunaan berikutnya</Label>
+          </div>
         </div>
 
         <div className="grid w-full max-w-sm items-center gap-3">
@@ -125,7 +170,7 @@ export default function Home() {
               type="text"
               placeholder="Pajak"
               onChange={(e) => setTax(e.target.value)}
-              disabled={taxEnable == "none"}
+              disabled={taxEnable == "none" || taxEnable == "persen"}
               value={tax}
             />
             <Select onValueChange={(value) => setTaxEnable(value)}>
@@ -155,7 +200,7 @@ export default function Home() {
               className="flex-1 cursor-pointer"
               variant="outline"
               disabled={taxEnable == "none" || taxEnable == "rupiah"}
-              onClick={() => setTax(0.05)}
+              onClick={() => setTax(0.5)}
             >
               5%
             </Button>
@@ -210,7 +255,6 @@ export default function Home() {
         </div>
       </div>
       <div id="reader" className="hidden"></div>
-      <canvas ref={canvasRef} className="hidden"></canvas>
     </div>
   );
 }
