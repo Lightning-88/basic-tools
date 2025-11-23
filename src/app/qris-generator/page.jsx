@@ -123,7 +123,7 @@ export default function Home() {
 
   return (
     <div className="flex justify-center items-center py-4">
-      <div className="flex flex-col space-y-6 p-8 bg-gray-50 rounded-2xl mx-4">
+      <div className="flex flex-col space-y-6 p-8 border border-zinc-200 rounded-2xl mx-4 dark:border-zinc-700">
         <h1 className="text-center text-2xl font-bold">Qris Generator</h1>
 
         <div className="grid w-full max-w-sm items-center gap-3">
