@@ -87,7 +87,7 @@ export default function Home() {
     const responseBody = await response.json();
 
     if (responseBody.status == 200) {
-      const url = await qrcode.toDataURL(responseBody.stringQr, { margin: 0 });
+      const url = await qrcode.toDataURL(responseBody.stringQr, { margin: 4 });
       setStringQr((prev) => ({
         ...prev,
         url: url,
