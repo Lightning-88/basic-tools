@@ -28,7 +28,7 @@ export default function QRCode() {
   }, [text]);
 
   return (
-    <div className="flex justify-center items-center py-4">
+    <div className="flex justify-center items-center py-4 flex-col md:flex-row">
       <div className="flex flex-col border border-zinc-200 rounded-2xl mx-4 dark:border-zinc-700">
         {!text ? (
           <QrCode width={400} height={400} className="opacity-50" />
