@@ -14,8 +14,9 @@ export default function XORChipherPage() {
 
   const handleEncrypt = () => {
     if (!key || !plainText) return alert("kosong");
-    if (salts <= 0 || !salts || salts > 20)
-      return alert("salt tidak boleh kosong dan harus 1-20");
+    if (salts <= 0 || salts > 20) return alert("salt 1-20");
+    if (isNaN(salts)) return alert("harus angka 1-20");
+
     const { output, salt } = xorCipher(plainText, key, parseInt(salts));
     setEncryptText(output);
   };
@@ -32,6 +33,7 @@ export default function XORChipherPage() {
             id="plainText"
             placeholder="Plain Text"
             onChange={(e) => setPlainText(e.target.value)}
+            required
           />
         </div>
 
@@ -39,9 +41,11 @@ export default function XORChipherPage() {
           <Label htmlFor="salt">Salt</Label>
           <Input
             type="text"
+            inputMode="numeric"
             id="salt"
             placeholder="1-20 (Default 16)"
             onChange={(e) => setSalts(e.target.value)}
+            value={salts}
           />
         </div>
 
@@ -52,6 +56,7 @@ export default function XORChipherPage() {
             type="password"
             placeholder="Create Strong Key"
             onChange={(e) => setKey(e.target.value)}
+            required
           />
         </div>
 
