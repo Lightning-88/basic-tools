@@ -1,12 +1,11 @@
-import { Poppins } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-providers";
 import Navbar from "@/components/Navbar";
 
-const poppins = Poppins({
-  variable: "--font-poppins-sans",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jt-sans",
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata = {
@@ -17,7 +16,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${poppins.className} antialiased`}>
+      <body className={`${jetbrainsMono.className} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -25,7 +24,7 @@ export default function RootLayout({ children }) {
           disableTransitionOnChange
         >
           <Navbar />
-          {children}
+          <div className="pt-14">{children}</div>
         </ThemeProvider>
       </body>
     </html>
