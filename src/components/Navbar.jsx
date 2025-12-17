@@ -4,6 +4,7 @@ import { ChevronDown, ChevronUp, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import DarkModeToggle from "./DarkModeToggle";
 
 export default function Navbar() {
   const [isMouseOver, setIsMouseOver] = useState(false);
@@ -103,6 +104,7 @@ export default function Navbar() {
             <Link href="/" className="text-gray-950 text-sm/6 dark:text-white">
               Showcase
             </Link>
+            <DarkModeToggle />
           </div>
         </div>
 
