@@ -15,18 +15,9 @@ import {
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Html5Qrcode } from "html5-qrcode";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import qrcode from "qrcode";
 import Link from "next/link";
-import { useLocalStorage } from "@/hooks/use-local-storage.js";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { InputGroupButton } from "@/components/ui/input-group";
-import { ChevronDownIcon } from "lucide-react";
 
 export default function Home() {
   const [qrResult, setQrResult] = useState(null);
@@ -40,7 +31,6 @@ export default function Home() {
     download: "",
     id: "",
   });
-  const { get, set } = useLocalStorage();
 
   useEffect(() => {
     setTax(0);
@@ -94,30 +84,6 @@ export default function Home() {
         success: true,
         id: `result_${responseBody.id}`,
       }));
-
-      // if (saveCode) {
-      //   set("stringQr", qrResult);
-      // }
-
-      //   const canvas = canvasRef.current;
-      //   const img = new Image();
-      //   const spacing = 32;
-
-      //   img.onload = () => {
-      //     const ctx = canvas.getContext("2d");
-
-      //     canvas.width = img + spacing * 2;
-      //     canvas.height = img + spacing * 2;
-
-      //     ctx.fillStyle = "#fff";
-      //     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      //     ctx.drawImage(img, spacing, spacing);
-      //   };
-
-      //   const download = canvas.toDataURL("iamge/png");
-
-      //   setStringQr((prev) => ({ ...prev, download: download }));
     }
   };
 
@@ -140,21 +106,6 @@ export default function Home() {
           <Label htmlFor="inputFileQr">Masukkan Kode Qr</Label>
           <div className="flex gap-2">
             <Input id="inputFileQr" type="file" onChange={handleQrFile} />
-            {/* {get("stringQr") && (
-              <div>
-                <Select onValueChange={(value) => setTaxEnable(value)}>
-                  <SelectTrigger className="w-[90px]">
-                    <SelectValue placeholder="Saved" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="none">None</SelectItem>
-                      <SelectItem value={get("stringQr")}>Code 1</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-            )} */}
           </div>
           <div className="flex items-center gap-3">
             <Checkbox id="terms" onClick={handleSave} />
@@ -179,7 +130,6 @@ export default function Home() {
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  {/* <SelectLabel>Fruits</SelectLabel> */}
                   <SelectItem value="none">None</SelectItem>
                   <SelectItem value="persen">Persen</SelectItem>
                   <SelectItem value="rupiah">Rupiah</SelectItem>
@@ -245,13 +195,6 @@ export default function Home() {
               </div>
             </div>
           )}
-          {/* <div className="flex flex-col space-y-3">
-            <Skeleton className="h-[280px] w-full rounded-xl" />
-            <div className="space-y-2">
-              <Skeleton className="h-8 w-20" />
-              <Button className="cursor-pointer">Unduh</Button>
-            </div>
-          </div> */}
         </div>
       </div>
       <div id="reader" className="hidden"></div>
