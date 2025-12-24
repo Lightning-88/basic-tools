@@ -73,11 +73,11 @@ export default function QRCode() {
                     setColor((prev) => {
                       return {
                         ...prev,
-                        dark: e.target.value,
+                        light: e.target.value,
                       };
                     })
                   }
-                  value={color.dark}
+                  value={color.light}
                 />
               </div>
               <div className="flex justify-between">
@@ -90,11 +90,11 @@ export default function QRCode() {
                     setColor((prev) => {
                       return {
                         ...prev,
-                        light: e.target.value,
+                        dark: e.target.value,
                       };
                     })
                   }
-                  value={color.light}
+                  value={color.dark}
                 />
               </div>
             </div>
