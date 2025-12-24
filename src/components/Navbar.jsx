@@ -91,10 +91,11 @@ export default function Navbar() {
               <span
                 className={`absolute ${
                   isMouseOver ? "flex" : "hidden"
-                } text-sm flex-col text-left border top-6 gap-2 rounded-md bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 left-0 p-4 w-44`}
+                } z-20 text-sm flex-col text-left border top-6 gap-2 rounded-md bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 left-0 p-4 w-44`}
               >
                 <Link href="/qris-generator">Qris Generator</Link>
                 <Link href="/qrcode">QR Generator</Link>
+                <Link href="/fbdown">Fb Download</Link>
               </span>
             </div>
             <button className="flex gap-1 text-gray-950 text-sm/6 dark:text-white">
