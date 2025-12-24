@@ -55,6 +55,7 @@ export default function QRCode() {
         <div className="grid w-full max-w-sm items-center gap-3">
           <Label htmlFor="text">Masukkan Teks</Label>
           <Input
+            className="text-xs"
             type="text"
             id="text"
             placeholder="Abc..."
