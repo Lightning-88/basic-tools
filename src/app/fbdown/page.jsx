@@ -18,29 +18,33 @@ export default function FbDownPage() {
     if (!link) return alert("link kosong");
     setDownloadLink("");
 
-    setLoading(true);
-    const response = await fetch("https://fdown.isuru.eu.org/download", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ url: link.trim(), quality: "best" }),
-    });
-    const result = await response.json();
-
-    if (!result.status === "success") {
-      setLoading(false);
-      alert("download gagal");
-    }
-
-    fetch(result.download_url)
-      .then((res) => res.blob())
-      .then((blob) => {
-        const url = URL.createObjectURL(blob);
-        console.log(url);
-        setDownloadLink(url);
-        setLoading(false);
+    try {
+      setLoading(true);
+      const response = await fetch("https://fdown.isuru.eu.org/download", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url: link.trim(), quality: "best" }),
       });
+      const result = await response.json();
+
+      if (!result.status === "success") {
+        throw new Error("download gagal");
+      }
+
+      fetch(result.download_url)
+        .then((res) => res.blob())
+        .then((blob) => {
+          const url = URL.createObjectURL(blob);
+          console.log(url);
+          setDownloadLink(url);
+          setLoading(false);
+        });
+    } catch (error) {
+      alert(error.message);
+      setLoading(false);
+    }
   };
 
   return (
