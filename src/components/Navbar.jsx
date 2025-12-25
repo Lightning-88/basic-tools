@@ -96,6 +96,7 @@ export default function Navbar() {
                 <Link href="/qris-generator">Qris Generator</Link>
                 <Link href="/qrcode">QR Generator</Link>
                 <Link href="/fbdown">Fb Download</Link>
+                <Link href="/tktkdown">Tiktok Download</Link>
               </span>
             </div>
             <button className="flex gap-1 text-gray-950 text-sm/6 dark:text-white">
