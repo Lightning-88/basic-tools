@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LoaderCircle } from "lucide-react";
-import Link from "next/link";
 import { useState } from "react";
 import { v4 } from "uuid";
 
@@ -29,14 +28,8 @@ export default function TiktokDownPage() {
         throw new Error(result.msg);
       }
 
-      fetch(result.data.play)
-        .then((res) => res.blob())
-        .then((blob) => {
-          const url = URL.createObjectURL(blob);
-          console.log(url);
-          setDownloadLink(url);
-          setLoading(false);
-        });
+      setDownloadLink(result.data.play);
+      setLoading(false);
     } catch (error) {
       alert(error.message);
       setLoading(false);
@@ -51,9 +44,12 @@ export default function TiktokDownPage() {
         {downloadLink && (
           <div className="space-y-2">
             <video src={downloadLink} controls></video>
-            <Link href={downloadLink} download={`downloaded_${uuidv4}`}>
+            <a
+              href={`api/download?url=${encodeURIComponent(link)}&type=tiktok`}
+              download={`downloaded_${uuidv4}`}
+            >
               <Button className="cursor-pointer">Download</Button>
-            </Link>
+            </a>
           </div>
         )}
 
